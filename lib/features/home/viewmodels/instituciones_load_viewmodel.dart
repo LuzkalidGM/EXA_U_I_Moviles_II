@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:gameon/core/network/network_failure.dart';
 import '../models/institucion_deportiva.dart';
 
 /// Estado de carga de las instalaciones y control de reintentos manuales.
@@ -19,6 +20,10 @@ class InstitucionesLoadViewModel extends ChangeNotifier {
   bool _disposed = false;
 
   bool get canRetry => error != null && !isLoading && cooldownSeconds == 0;
+
+  String get errorMessage => error is NetworkFailure
+      ? (error as NetworkFailure).message
+      : 'Error al cargar instalaciones';
 
   Future<void> load() => _execute(manualRetry: false);
 

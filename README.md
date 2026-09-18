@@ -74,9 +74,30 @@ Archivos afectados:
 ```sh
 flutter test test/network_adapter_test.dart test/instituciones_retry_test.dart test/login_page_test.dart --reporter expanded
 ```
-Resultado: **9 pruebas aprobadas**. El análisis de los archivos del ejercicio 2 no encontró problemas. Los mensajes semánticos «Tiempo agotado» y «Sin conexión» corresponden al ejercicio 3 y aún están pendientes.
+Resultado al completar este ítem: **9 pruebas aprobadas**. El análisis de los archivos del ejercicio 2 no encontró problemas. La transformación de errores se incorpora en el ejercicio 3, descrito a continuación.
 
 Consulta la [guía de evidencias del ejercicio 2](evidencias/ejercicio_2/README.md).
+
+## Examen tipo 4 — Ejercicio 3: errores de conectividad
+
+El adaptador transforma `TimeoutException` en el error de aplicación **Tiempo agotado** y `SocketException` o `http.ClientException` en **Sin conexión**. La pantalla muestra el mensaje del error de dominio. El controlador termina la carga general y el progreso local del reintento en su bloque `finally`; conserva el reintento manual del ejercicio 1. Los errores ajenos a transporte se propagan sin convertirlos en desconexión.
+
+Archivos afectados:
+- `lib/core/network/network_adapter.dart`: captura y transformación de errores.
+- `lib/core/network/network_failure.dart`: tipos y mensajes del error de aplicación.
+- `lib/core/network/socket_failure_io.dart` y `socket_failure_stub.dart`: detección de sockets mediante importación condicional, compatible con Android y web.
+- `lib/features/home/viewmodels/instituciones_load_viewmodel.dart`: expone `errorMessage` para la vista.
+- `lib/features/home/views/home_view.dart`: muestra el mensaje semántico.
+- `test/network_adapter_test.dart`: valida el nuevo error de dominio al vencer el límite.
+- `test/network_failure_state_test.dart`: valida timeout, socket y transporte web, con indicadores de carga desactivados.
+- `evidencias/ejercicio_3/`: captura real sin conexión y guía para el PDF.
+
+```sh
+flutter test test/network_failure_state_test.dart test/network_adapter_test.dart test/instituciones_retry_test.dart test/login_page_test.dart --reporter expanded
+```
+Resultado: **12 pruebas aprobadas**. El análisis de los archivos modificados no encontró errores ni advertencias; la vista conserva cuatro avisos informativos anteriores de `withOpacity` obsoleto. Se verificó **Sin conexión** en el emulador con Wi-Fi y datos temporalmente desactivados, y se restauró la conexión al terminar.
+
+Consulta la [guía de evidencias del ejercicio 3](evidencias/ejercicio_3/README.md). La presentación de los ejercicios 4 y 5 todavía está pendiente.
 
 ## Notas técnicas
 - El flujo de pago se realiza dentro de la app usando WebView.

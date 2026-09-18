@@ -3,6 +3,7 @@ import 'package:fake_async/fake_async.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gameon/core/network/network_adapter.dart';
 import 'package:gameon/core/network/network_config.dart';
+import 'package:gameon/core/network/network_failure.dart';
 
 void main() {
   test('La configuración corta una petición pendiente a los tres segundos', () {
@@ -23,7 +24,14 @@ void main() {
       clock.elapse(const Duration(milliseconds: 2999));
       expect(failure, isNull);
       clock.elapse(const Duration(milliseconds: 1));
-      expect(failure, isA<TimeoutException>());
+      expect(
+        failure,
+        isA<NetworkFailure>().having(
+          (error) => error.message,
+          'message',
+          'Tiempo agotado',
+        ),
+      );
       expect(calls, 1);
     });
   });

@@ -28,4 +28,4 @@ flutter analyze lib/core/network lib/features/home/viewmodels/home_viewmodel.dar
 
 Resultado: `No issues found!`.
 
-Los mensajes de dominio del ejercicio 3 y las pruebas específicas exigidas en los ejercicios 4 y 5 siguen pendientes.
+Al completar el ejercicio 2, los mensajes de dominio estaban pendientes. Se incorporaron posteriormente en el ejercicio 3; consulta su guía. La presentación de los ejercicios 4 y 5 sigue pendiente.

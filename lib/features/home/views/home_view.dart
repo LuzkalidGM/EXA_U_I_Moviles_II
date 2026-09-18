@@ -479,7 +479,7 @@ class _HomeTabScaffoldState extends State<HomeTabScaffold> {
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            'Error al cargar instalaciones',
+                            _instalaciones.errorMessage,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
