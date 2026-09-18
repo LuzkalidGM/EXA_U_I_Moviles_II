@@ -117,6 +117,34 @@ flutter test test/ejercicio_4_test.dart --reporter expanded
 ```
 Resultado: **3 pruebas aprobadas**. Las 12 pruebas anteriores también pasaron (15 verificadas en total). El análisis de los archivos de este ítem no encontró problemas. Consulta la [guía de evidencias del ejercicio 4](evidencias/ejercicio_4/README.md).
 
+## Examen tipo 4 — Ejercicio 5: pruebas de timeout y desconexión
+
+`test/ejercicio_5_test.dart` contiene exactamente las dos pruebas especializadas del enunciado:
+- Una respuesta simulada demorada **4 segundos**, superior al límite configurado de **3 segundos**, produce **Tiempo agotado** y desactiva la carga. Se comprueba el límite exacto y que la respuesta tardía no elimina el error.
+- Una `SocketException` forzada produce **Sin conexión** y desactiva la carga general y el progreso del reintento manual.
+
+Se trasladaron a este archivo los casos de timeout y socket que se verificaban durante el ejercicio 3, ampliando sus comprobaciones. `test/network_failure_state_test.dart` conserva el caso adicional de transporte web; no se duplican las pruebas.
+
+Archivos afectados:
+- `test/ejercicio_5_test.dart`: dos pruebas especializadas con el adaptador y controlador reales.
+- `test/network_failure_state_test.dart`: conserva la verificación de `ClientException` web.
+- `evidencias/ejercicio_5/pruebas.txt`: salida íntegra de las dos pruebas aprobadas.
+- `evidencias/ejercicio_5/pruebas_completas.txt`: salida de la verificación conjunta de los seis archivos de pruebas.
+- `evidencias/ejercicio_5/README.md`: guía de capturas y explicación técnica.
+
+```sh
+flutter test test/ejercicio_5_test.dart --reporter expanded
+```
+Resultado: **2 pruebas aprobadas**, sin conexión ni emulador. El análisis de ambos archivos modificados no encontró problemas.
+
+Verificación conjunta:
+```sh
+flutter test test/ejercicio_4_test.dart test/ejercicio_5_test.dart test/network_failure_state_test.dart test/network_adapter_test.dart test/instituciones_retry_test.dart test/login_page_test.dart --reporter expanded
+```
+Resultado: **15 pruebas aprobadas**.
+
+Los cinco ejercicios del tipo 4 están implementados y su código está subido al repositorio. Las referencias a pendientes en las secciones anteriores describen el avance al completar cada etapa. Queda preparar las capturas del editor y terminal, reunirlas en el PDF con carátula y nombre exigido, y realizar la sustentación. Consulta la [guía de evidencias del ejercicio 5](evidencias/ejercicio_5/README.md).
+
 ## Notas técnicas
 - El flujo de pago se realiza dentro de la app usando WebView.
 - El overlay de carga cubre toda la pantalla durante el procesamiento de pago y reserva.

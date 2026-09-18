@@ -1,0 +1,4 @@
+00:00 +0: loading C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/ejercicio_5_test.dart
+00:00 +0: (a) Respuesta de 4s: Tiempo agotado a los 3s y carga desactivada
+00:00 +1: (b) SocketException: Sin conexión y carga desactivada
+00:00 +2: All tests passed!

@@ -1,0 +1,17 @@
+00:00 +0: loading C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/ejercicio_4_test.dart
+00:00 +0: C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/ejercicio_4_test.dart: (a) Arranque limpio: sin sesión preexistente ni peticiones
+00:00 +1: C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/ejercicio_5_test.dart: (a) Respuesta de 4s: Tiempo agotado a los 3s y carga desactivada
+00:00 +2: C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/ejercicio_4_test.dart: (b) Respuesta HTTP exitosa: actualiza el estado con instalaciones
+00:00 +3: C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/ejercicio_4_test.dart: (b) Respuesta HTTP exitosa: actualiza el estado con instalaciones
+00:00 +4: C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/ejercicio_4_test.dart: (c) Error HTTP de servidor: estado de error sin reintentos automáticos
+00:00 +5: C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/network_failure_state_test.dart: ClientException muestra Sin conexión y termina el reintento
+00:01 +6: C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/network_adapter_test.dart: La configuración corta una petición pendiente a los tres segundos
+00:01 +7: C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/network_adapter_test.dart: El constructor permite otro límite y devuelve la respuesta a tiempo
+00:01 +8: C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/instituciones_retry_test.dart: El fallo inicial no reintenta automáticamente ni cuenta como manual
+00:01 +9: C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/instituciones_retry_test.dart: El reintento muestra carga local, evita duplicados y recupera la carga
+00:01 +10: C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/instituciones_retry_test.dart: Tres reintentos manuales fallidos bloquean diez segundos sin peticiones extra
+00:05 +11: C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/login_page_test.dart: El perfil permite abrir el login en una pantalla pequeña
+00:06 +12: C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/login_page_test.dart: No autentica cuando los campos están vacíos
+00:07 +13: C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/login_page_test.dart: Usa la sesión compartida y conserva la contraseña exacta
+00:07 +14: C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/login_page_test.dart: Vuelve a la pantalla anterior después de un login correcto
+00:07 +15: All tests passed!
