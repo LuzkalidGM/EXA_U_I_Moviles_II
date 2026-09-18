@@ -1,12 +1,19 @@
 import 'package:gameon/features/home/models/institucion_deportiva.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:developer' as developer; // Para logs más estructurados
+import 'package:gameon/core/network/network_adapter.dart';
+import 'package:gameon/core/network/network_config.dart';
 
 // Sugerencia: si prefieres usar debugPrint en lugar de developer.log,
 // reemplaza developer.log(...) por debugPrint(...).
 
 // ViewModel encargado de la lógica para obtener instalaciones deportivas
 class HomeViewModel {
+  HomeViewModel({NetworkAdapter? networkAdapter})
+    : _networkAdapter = networkAdapter ?? NetworkConfig.createAdapter();
+
+  final NetworkAdapter _networkAdapter;
+
   // Obtiene la lista de instalaciones deportivas activas desde Supabase
   Future<List<InstitucionDeportiva>> fetchInstituciones() async {
     final client = Supabase.instance.client;
@@ -25,10 +32,9 @@ class HomeViewModel {
       );
 
       // Realiza la consulta a la tabla 'instituciones_deportivas' filtrando por estado = 1
-      final data = await client
-          .from('instituciones_deportivas')
-          .select()
-          .eq('estado', 1);
+      final data = await _networkAdapter.execute(
+        () => client.from('instituciones_deportivas').select().eq('estado', 1),
+      );
 
       developer.log(
         'fetchInstituciones: respuesta raw tipo=${data.runtimeType} tamaño=${data.length}',

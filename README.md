@@ -60,6 +60,24 @@ Resultado: **7 pruebas aprobadas** (3 de reintento y 4 de login). Estas pruebas 
 
 Consulta la [guía de evidencias del ejercicio 1](evidencias/ejercicio_1/README.md).
 
+## Examen tipo 4 — Ejercicio 2: timeout configurable
+
+La consulta de instalaciones utiliza un adaptador de red cuyo constructor recibe `Duration timeout`. La factoría configura **3 segundos** fuera de las pantallas. `HomeViewModel` permite inyectar otro adaptador y aplica el límite en cada consulta, incluidos los reintentos manuales.
+
+Archivos afectados:
+- `lib/core/network/network_adapter.dart`: constructor configurable y aplicación del límite mediante `Future.timeout`.
+- `lib/core/network/network_config.dart`: factoría con la configuración de tres segundos.
+- `lib/features/home/viewmodels/home_viewmodel.dart`: inyección del adaptador y ejecución de la consulta Supabase a través de él.
+- `test/network_adapter_test.dart`: verifica el vencimiento a los tres segundos y un límite alternativo de cinco segundos.
+- `evidencias/ejercicio_2/README.md`: guía para capturar y explicar el código.
+
+```sh
+flutter test test/network_adapter_test.dart test/instituciones_retry_test.dart test/login_page_test.dart --reporter expanded
+```
+Resultado: **9 pruebas aprobadas**. El análisis de los archivos del ejercicio 2 no encontró problemas. Los mensajes semánticos «Tiempo agotado» y «Sin conexión» corresponden al ejercicio 3 y aún están pendientes.
+
+Consulta la [guía de evidencias del ejercicio 2](evidencias/ejercicio_2/README.md).
+
 ## Notas técnicas
 - El flujo de pago se realiza dentro de la app usando WebView.
 - El overlay de carga cubre toda la pantalla durante el procesamiento de pago y reserva.
