@@ -1,0 +1,9 @@
+00:00 +0: loading C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/instituciones_retry_test.dart
+00:00 +0: C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/instituciones_retry_test.dart: El fallo inicial no reintenta automáticamente ni cuenta como manual
+00:00 +1: C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/instituciones_retry_test.dart: El reintento muestra carga local, evita duplicados y recupera la carga
+00:00 +2: C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/instituciones_retry_test.dart: Tres reintentos manuales fallidos bloquean diez segundos sin peticiones extra
+00:00 +3: C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/login_page_test.dart: El perfil permite abrir el login en una pantalla pequeña
+00:02 +4: C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/login_page_test.dart: No autentica cuando los campos están vacíos
+00:02 +5: C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/login_page_test.dart: Usa la sesión compartida y conserva la contraseña exacta
+00:02 +6: C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/login_page_test.dart: Vuelve a la pantalla anterior después de un login correcto
+00:03 +7: All tests passed!

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gameon/features/home/models/institucion_deportiva.dart';
@@ -7,6 +8,7 @@ import 'package:gameon/features/chat/views/chats_list_view.dart';
 import 'package:gameon/features/notificaciones/views/notificaciones_view.dart';
 import 'package:gameon/features/notificaciones/viewmodels/notificaciones_viewmodel.dart';
 import '../viewmodels/home_viewmodel.dart';
+import '../viewmodels/instituciones_load_viewmodel.dart';
 import 'institucion_detail_view.dart';
 import 'mapa_instituciones_view.dart';
 import 'package:provider/provider.dart';
@@ -109,7 +111,8 @@ class HomeTabScaffold extends StatefulWidget {
 
 class _HomeTabScaffoldState extends State<HomeTabScaffold> {
   late final HomeViewModel _vm;
-  late Future<List<InstitucionDeportiva>> _institucionesFuture;
+  late final InstitucionesLoadViewModel _instalaciones;
+  late bool _wasLoggedIn;
   final TextEditingController _searchController = TextEditingController();
   String _query = '';
   NotificacionesViewModel? _notificacionesVm;
@@ -119,7 +122,11 @@ class _HomeTabScaffoldState extends State<HomeTabScaffold> {
   void initState() {
     super.initState();
     _vm = HomeViewModel();
-    _institucionesFuture = _vm.fetchInstituciones();
+    _instalaciones = InstitucionesLoadViewModel(
+      fetchInstituciones: _vm.fetchInstituciones,
+    );
+    _wasLoggedIn = context.read<PerfilViewModel>().isLoggedIn;
+    unawaited(_instalaciones.load());
     _searchController.addListener(() {
       setState(() => _query = _searchController.text.trim());
     });
@@ -137,6 +144,11 @@ class _HomeTabScaffoldState extends State<HomeTabScaffold> {
 
   void _onPerfilVmChange() {
     if (!mounted) return;
+    final loggedIn = context.read<PerfilViewModel>().isLoggedIn;
+    if (loggedIn && !_wasLoggedIn) {
+      unawaited(_instalaciones.load());
+    }
+    _wasLoggedIn = loggedIn;
     _initNotificationsViewModel();
   }
 
@@ -178,6 +190,7 @@ class _HomeTabScaffoldState extends State<HomeTabScaffold> {
   @override
   void dispose() {
     _searchController.dispose();
+    _instalaciones.dispose();
     _notificacionesVm?.dispose();
     if (_perfilListenerAttached) {
       final perfilVm = context.read<PerfilViewModel>();
@@ -189,7 +202,10 @@ class _HomeTabScaffoldState extends State<HomeTabScaffold> {
   // Método para abrir la vista de mapa
   void _openMapView() async {
     try {
-      final instituciones = await _institucionesFuture;
+      if (_instalaciones.isLoading || _instalaciones.error != null) {
+        throw StateError('Primero carga las instalaciones desde Inicio.');
+      }
+      final instituciones = _instalaciones.instituciones;
       if (mounted) {
         Navigator.push(
           context,
@@ -440,17 +456,18 @@ class _HomeTabScaffoldState extends State<HomeTabScaffold> {
             const SizedBox(height: 20),
             // Lista de instalaciones
             Expanded(
-              child: FutureBuilder<List<InstitucionDeportiva>>(
-                future: _institucionesFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
+              child: AnimatedBuilder(
+                animation: _instalaciones,
+                builder: (context, _) {
+                  if (_instalaciones.isLoading && !_instalaciones.isRetrying) {
                     return Center(
                       child: CircularProgressIndicator(
                         color: Colors.green[600],
                       ),
                     );
                   }
-                  if (snapshot.hasError) {
+                  if (_instalaciones.error != null ||
+                      _instalaciones.isRetrying) {
                     return Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -471,19 +488,49 @@ class _HomeTabScaffoldState extends State<HomeTabScaffold> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            '${snapshot.error}',
+                            'Revisa tu conexión y vuelve a intentarlo.',
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[500],
                             ),
                             textAlign: TextAlign.center,
                           ),
+                          const SizedBox(height: 16),
+                          ElevatedButton.icon(
+                            onPressed: _instalaciones.canRetry
+                                ? _instalaciones.retry
+                                : null,
+                            icon: _instalaciones.isRetrying
+                                ? const SizedBox(
+                                    width: 18,
+                                    height: 18,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : const Icon(Icons.refresh),
+                            label: Text(
+                              _instalaciones.isRetrying
+                                  ? 'Reintentando...'
+                                  : _instalaciones.cooldownSeconds > 0
+                                  ? 'Reintentar (${_instalaciones.cooldownSeconds} s)'
+                                  : 'Reintentar',
+                            ),
+                          ),
+                          if (_instalaciones.cooldownSeconds > 0)
+                            const Padding(
+                              padding: EdgeInsets.all(16),
+                              child: Text(
+                                'El servicio está temporalmente inestable. Espera unos segundos para volver a intentar.',
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                         ],
                       ),
                     );
                   }
 
-                  final instituciones = snapshot.data ?? [];
+                  final instituciones = _instalaciones.instituciones;
                   final q = _query.toLowerCase();
                   final filtradas = q.isEmpty
                       ? instituciones
