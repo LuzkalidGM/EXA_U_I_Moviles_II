@@ -9,19 +9,23 @@ import 'package:gameon/core/network/network_config.dart';
 
 // ViewModel encargado de la lógica para obtener instalaciones deportivas
 class HomeViewModel {
-  HomeViewModel({NetworkAdapter? networkAdapter})
-    : _networkAdapter = networkAdapter ?? NetworkConfig.createAdapter();
+  HomeViewModel({NetworkAdapter? networkAdapter, SupabaseClient? client})
+    : _networkAdapter = networkAdapter ?? NetworkConfig.createAdapter(),
+      _client = client;
 
   final NetworkAdapter _networkAdapter;
+  final SupabaseClient? _client;
+
+  SupabaseClient get _supabase => _client ?? Supabase.instance.client;
+  bool get hasSession => _supabase.auth.currentSession != null;
 
   // Obtiene la lista de instalaciones deportivas activas desde Supabase
   Future<List<InstitucionDeportiva>> fetchInstituciones() async {
-    final client = Supabase.instance.client;
+    final client = _supabase;
 
     // Log de sesión / autenticación
-    final session = client.auth.currentSession;
     developer.log(
-      'fetchInstituciones: iniciando. Authenticated=${session != null} userId=${session?.user.id}',
+      'fetchInstituciones: iniciando. Authenticated=$hasSession userId=${client.auth.currentUser?.id}',
       name: 'HomeViewModel',
     );
 

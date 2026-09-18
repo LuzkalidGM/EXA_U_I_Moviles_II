@@ -1,0 +1,5 @@
+00:00 +0: loading C:/Users/Gabriela/Downloads/gameon_mobile-masterr/gameon_mobile-exa/test/ejercicio_4_test.dart
+00:00 +0: (a) Arranque limpio: sin sesión preexistente ni peticiones
+00:00 +1: (b) Respuesta HTTP exitosa: actualiza el estado con instalaciones
+00:00 +2: (c) Error HTTP de servidor: estado de error sin reintentos automáticos
+00:00 +3: All tests passed!

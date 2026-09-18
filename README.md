@@ -99,6 +99,24 @@ Resultado: **12 pruebas aprobadas**. El análisis de los archivos modificados no
 
 Consulta la [guía de evidencias del ejercicio 3](evidencias/ejercicio_3/README.md). La presentación de los ejercicios 4 y 5 todavía está pendiente.
 
+## Examen tipo 4 — Ejercicio 4: tres pruebas con cliente simulado
+
+`test/ejercicio_4_test.dart` utiliza `http.MockClient` inyectado en un cliente Supabase aislado, sin conexión al backend ni emulador. Ejecuta exactamente los tres casos del enunciado:
+- Arranque limpio: sesión nula, estado sin datos ni error y cero peticiones.
+- Respuesta exitosa HTTP 200: consulta la tabla y filtro reales, convierte el JSON a instalaciones y notifica el cambio del estado.
+- Error de servidor HTTP 500: conserva `PostgrestException`, desactiva la carga y registra una única petición, sin reintento automático.
+
+Archivos afectados:
+- `lib/features/home/viewmodels/home_viewmodel.dart`: acepta un cliente Supabase opcional por constructor y expone `hasSession`; la app continúa utilizando su cliente compartido cuando no se inyecta otro.
+- `test/ejercicio_4_test.dart`: mock HTTP, datos ficticios y las tres pruebas unitarias.
+- `evidencias/ejercicio_4/pruebas.txt`: salida íntegra de la ejecución aprobada.
+- `evidencias/ejercicio_4/README.md`: instrucciones para la captura de terminal y explicación para el PDF.
+
+```sh
+flutter test test/ejercicio_4_test.dart --reporter expanded
+```
+Resultado: **3 pruebas aprobadas**. Las 12 pruebas anteriores también pasaron (15 verificadas en total). El análisis de los archivos de este ítem no encontró problemas. Consulta la [guía de evidencias del ejercicio 4](evidencias/ejercicio_4/README.md).
+
 ## Notas técnicas
 - El flujo de pago se realiza dentro de la app usando WebView.
 - El overlay de carga cubre toda la pantalla durante el procesamiento de pago y reserva.
